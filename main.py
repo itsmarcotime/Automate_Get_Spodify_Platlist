@@ -28,7 +28,7 @@ def login():
     scope = 'user-read-private user-read-email'
     params = {
         'client_id': CLIENT_ID,
-        'respomse_type': 'code',
+        'response_type': 'code',
         'scope': scope,
         'redirect_uri': REDIRECT_URI,
         # comment below out in production for testing only.*
@@ -58,7 +58,7 @@ def callback():
 
         session['access_token'] = token_info['access_token']
         session['refresh_token'] = token_info['refresh_token']
-        session['expires_at'] = datetime.now().timestamp() + token_info['expies_in']
+        session['expires_at'] = datetime.now().timestamp() + token_info['expires_in']
 
         return redirect('/playlists')
     
@@ -74,7 +74,7 @@ def get_playlists():
         'Authorization': f"Bearer {session['access_token']}"
     }
 
-    response = request.get(API_BASE_URL + 'me/playlists', headers=headers)
+    response = requests.get(API_BASE_URL + '/me/playlists', headers=headers)
     playlists = response.json()
 
     return jsonify(playlists)
@@ -96,7 +96,7 @@ def refresh_token():
         new_token_info = response.json()
 
         session['access_token'] = new_token_info['access_token']
-        session['expires_at'] = datetime.now().timestamp() + new_token_info['expies_in']
+        session['expires_at'] = datetime.now().timestamp() + new_token_info['expires_in']
 
         return redirect('/playlists')
 
