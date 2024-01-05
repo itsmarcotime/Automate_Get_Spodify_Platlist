@@ -5,7 +5,6 @@ import urllib.parse
 from datetime import datetime, timedelta
 from flask import Flask, redirect, request, jsonify, session
 
-
 load_dotenv()
 
 app = Flask(__name__)
